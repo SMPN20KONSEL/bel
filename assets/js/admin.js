@@ -40,7 +40,7 @@ const daftarAudio = [
   "5_menit_sebelum_berakrih_istirahat_ke2.mp3",
   "5_menit_sebelum_mulai_jam_ke1.mp3",
   "5_menit_sebelum_upacara.mp3",
-  "Indonesia Raya.mp3",
+  "lagu_indonesia_raya.mp3",
   "jam_pulang_khusus_sabtu.mp3",
   "masuk_jam_ke1.mp3",
   "masuk_jam_ke2.mp3",
