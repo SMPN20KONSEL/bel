@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0">
+
+<title>Admin Bel Sekolah</title>
+
+<link
+  rel="stylesheet"
+  href="assets/css/admin.css">
+
+</head>
+
+<body>
+<a
+href="index.html"
+class="kembaliBtn">
+
+← KEMBALI
+
+</a>
+<div class="container">
+
+  <!-- JUDUL -->
+
+  <h1>ADMIN BEL SEKOLAH</h1>
+
+  <!-- FORM -->
+
+  <div class="formBox">
+
+    <!-- NAMA BEL -->
+
+    <div class="inputGroup">
+
+      <label for="namaBel">
+        Nama Bel
+      </label>
+
+      <input
+        type="text"
+        id="namaBel"
+        placeholder="Contoh : Bel Masuk"
+        autocomplete="off">
+
+    </div>
+
+    <!-- JAM BEL -->
+
+    <div class="inputGroup">
+
+      <label for="jamBel">
+        Jam Bel
+      </label>
+
+      <input
+        type="time"
+        id="jamBel">
+
+    </div>
+
+    <!-- HARI -->
+
+<select id="hariBel">
+
+  <option value="Minggu">
+    Minggu
+  </option>
+
+  <option value="Senin">
+    Senin
+  </option>
+
+  <option value="Selasa">
+    Selasa
+  </option>
+
+  <option value="Rabu">
+    Rabu
+  </option>
+
+  <option value="Kamis">
+    Kamis
+  </option>
+
+  <option value="Jumat">
+    Jumat
+  </option>
+
+  <option value="Sabtu">
+    Sabtu
+  </option>
+
+</select>
+
+    <!-- AUDIO -->
+
+    <div class="inputGroup">
+
+      <label for="audioBel">
+        Audio Bel
+      </label>
+
+      <select id="audioBel"></select>
+
+    </div>
+
+    <!-- TOMBOL -->
+
+    <button id="btnSimpan">
+      SIMPAN
+    </button>
+
+  </div>
+
+  <!-- DATA -->
+
+  <div class="jadwalBox">
+
+    <h2>Daftar Jadwal Bel</h2>
+
+    <div id="dataJadwal">
+
+      <!-- DATA FIREBASE -->
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- JS -->
+
+<script
+  type="module"
+  src="assets/js/admin.js">
+</script>
+
+</body>
+</html>

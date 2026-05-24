@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Bel Sekolah Otomatis</title>
+
+<link rel="stylesheet" href="assets/css/style.css">
+
+</head>
+
+<body>
+
+<!-- ================= ADMIN ================= -->
+
+<a href="admin.html" class="adminBtn">
+  ADMIN
+</a>
+
+<!-- ================= CONTAINER ================= -->
+<div class="container">
+
+    <!-- ================= KOLOM KIRI ================= -->
+    <div class="leftBox">
+
+        <div class="jadwalBox">
+
+            <!-- STATUS -->
+            <div class="statusItem">
+                <span class="statusDot"></span>
+                BEL OTOMATIS AKTIF
+            </div>
+
+            <!-- JUDUL -->
+            <h2>JADWAL HARI INI</h2>
+
+            <div id="jadwalList">
+                <div class="loading">Memuat jadwal...</div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ================= KOLOM TENGAH ================= -->
+    <div class="centerBox">
+
+        <div class="clockBox">
+
+            <div id="tanggal">Memuat tanggal...</div>
+
+            <div class="clock">
+
+                <span id="jam">00</span>
+                <span class="kedip">:</span>
+                <span id="menit">00</span>
+                <span class="kedip">:</span>
+                <span id="detik">00</span>
+
+            </div>
+
+            <div id="hari">Memuat hari...</div>
+
+        </div>
+
+    </div>
+
+    <!-- ================= KOLOM KANAN ================= -->
+    <div class="rightBox">
+
+        <div class="nextBox">
+
+            <h2>BEL BERIKUTNYA</h2>
+
+            <div id="nextBell">MEMUAT...</div>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- ================= AUDIO ================= -->
+
+<audio id="audioPlayer" preload="auto"></audio>
+
+<!-- ================= SCRIPT ================= -->
+
+<script type="module" src="assets/js/script.js"></script>
+
+</body>
+</html>

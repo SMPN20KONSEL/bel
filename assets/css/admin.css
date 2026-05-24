@@ -1,0 +1,268 @@
+/* =========================
+   RESET
+========================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+/* =========================
+   BODY
+========================= */
+
+body{
+  background:#0f172a;
+  min-height:100vh;
+  padding:30px 15px;
+  color:white;
+}
+/* =========================
+   TOMBOL KEMBALI
+========================= */
+
+.kembaliBtn{
+
+  position:fixed;
+
+  top:20px;
+  left:20px;
+
+  background:#0ea5e9;
+
+  color:white;
+
+  text-decoration:none;
+
+  padding:12px 18px;
+
+  border-radius:12px;
+
+  font-weight:bold;
+
+  z-index:999;
+
+  transition:0.3s;
+
+  box-shadow:
+  0 5px 15px rgba(0,0,0,0.2);
+
+}
+
+.kembaliBtn:hover{
+
+  background:#0284c7;
+
+  transform:translateY(-2px);
+
+}
+/* =========================
+   CONTAINER
+========================= */
+
+.container{
+  max-width:700px;
+  margin:auto;
+}
+
+/* =========================
+   JUDUL
+========================= */
+
+h1{
+  text-align:center;
+  margin-bottom:25px;
+  font-size:32px;
+  color:#ffffff;
+}
+
+/* =========================
+   FORM BOX
+========================= */
+
+.formBox{
+  background:#1e293b;
+  padding:25px;
+  border-radius:15px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.3);
+  margin-bottom:25px;
+}
+
+/* =========================
+   INPUT GROUP
+========================= */
+
+.inputGroup{
+  margin-bottom:18px;
+}
+
+.inputGroup label{
+  display:block;
+  margin-bottom:8px;
+  font-size:14px;
+  font-weight:bold;
+  color:#cbd5e1;
+}
+
+/* =========================
+   INPUT & SELECT
+========================= */
+
+input,
+select{
+  width:100%;
+  padding:12px 14px;
+  border:none;
+  border-radius:10px;
+  outline:none;
+  background:#334155;
+  color:white;
+  font-size:15px;
+}
+
+input::placeholder{
+  color:#cbd5e1;
+}
+
+input:focus,
+select:focus{
+  border:2px solid #38bdf8;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+#btnSimpan{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:10px;
+  background:#38bdf8;
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+#btnSimpan:hover{
+  background:#0ea5e9;
+}
+
+#btnSimpan:disabled{
+  opacity:0.7;
+  cursor:not-allowed;
+}
+
+/* =========================
+   JADWAL BOX
+========================= */
+
+.jadwalBox{
+  background:#1e293b;
+  padding:25px;
+  border-radius:15px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+.jadwalBox h2{
+  margin-bottom:20px;
+  font-size:22px;
+  color:#ffffff;
+}
+
+/* =========================
+   ITEM JADWAL
+========================= */
+
+.jadwalItem{
+  background:#334155;
+  padding:15px;
+  border-radius:12px;
+  margin-bottom:15px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+
+  flex-wrap:wrap;
+}
+
+/* =========================
+   INFO JADWAL
+========================= */
+
+.infoJadwal{
+  flex:1;
+  line-height:1.7;
+  color:#f1f5f9;
+}
+
+.infoJadwal b{
+  font-size:17px;
+  color:#ffffff;
+}
+
+.infoJadwal small{
+  color:#cbd5e1;
+}
+
+/* =========================
+   HAPUS BUTTON
+========================= */
+
+.hapusBtn{
+  padding:10px 16px;
+  border:none;
+  border-radius:8px;
+  background:#ef4444;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.hapusBtn:hover{
+  background:#dc2626;
+}
+
+/* =========================
+   DATA KOSONG
+========================= */
+
+.kosong{
+  text-align:center;
+  padding:20px;
+  color:#cbd5e1;
+  font-size:15px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:600px){
+
+  h1{
+    font-size:24px;
+  }
+
+  .formBox,
+  .jadwalBox{
+    padding:18px;
+  }
+
+  .jadwalItem{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .hapusBtn{
+    width:100%;
+  }
+
+}
