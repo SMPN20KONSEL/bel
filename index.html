@@ -13,31 +13,68 @@
 
 <body>
 
-<!-- ================= ADMIN ================= -->
+<!-- ================= HEADER LED ================= -->
 
-<a href="admin.html" class="adminBtn">
-  ADMIN
-</a>
+<div class="runningHeader">
+
+  <div class="runningText">
+
+    <span>
+      🔔 SELAMAT DATANG DI SISTEM BEL SEKOLAH OTOMATIS 🔔
+      | DISIPLIN ADALAH KUNCI KEBERHASILAN |
+      SEMOGA HARI INI MENYENANGKAN ✨
+    </span>
+
+  </div>
+
+</div>
+
+<!-- ================= TOP BAR ================= -->
+
+<div class="topBar">
+
+  <div class="topTitle">
+    SISTEM BEL SEKOLAH
+  </div>
+
+  <a href="admin.html" class="adminBtn">
+    ADMIN
+  </a>
+
+</div>
 
 <!-- ================= CONTAINER ================= -->
+
 <div class="container">
 
     <!-- ================= KOLOM KIRI ================= -->
+
     <div class="leftBox">
 
         <div class="jadwalBox">
 
             <!-- STATUS -->
+
             <div class="statusItem">
+
                 <span class="statusDot"></span>
+
                 BEL OTOMATIS AKTIF
+
             </div>
 
             <!-- JUDUL -->
+
             <h2>JADWAL HARI INI</h2>
 
+            <!-- LIST -->
+
             <div id="jadwalList">
-                <div class="loading">Memuat jadwal...</div>
+
+                <div class="loading">
+                  Memuat jadwal...
+                </div>
+
             </div>
 
         </div>
@@ -45,49 +82,70 @@
     </div>
 
     <!-- ================= KOLOM TENGAH ================= -->
+
     <div class="centerBox">
 
         <div class="clockBox">
 
-            <div id="tanggal">Memuat tanggal...</div>
+            <div id="tanggal">
+              Memuat tanggal...
+            </div>
 
             <div class="clock">
 
                 <span id="jam">00</span>
+
                 <span class="kedip">:</span>
+
                 <span id="menit">00</span>
+
                 <span class="kedip">:</span>
+
                 <span id="detik">00</span>
 
             </div>
 
-            <div id="hari">Memuat hari...</div>
+            <div id="hari">
+              Memuat hari...
+            </div>
 
         </div>
 
     </div>
 
     <!-- ================= KOLOM KANAN ================= -->
+
     <div class="rightBox">
 
         <div class="nextBox">
 
             <h2>BEL BERIKUTNYA</h2>
 
-            <div id="nextBell">MEMUAT...</div>
+            <div id="nextBell">
+
+              MEMUAT...
+
+            </div>
 
         </div>
 
     </div>
 
 </div>
+
 <!-- ================= AUDIO ================= -->
 
-<audio id="audioPlayer" preload="auto"></audio>
+<audio
+id="audioPlayer"
+preload="auto">
+</audio>
 
 <!-- ================= SCRIPT ================= -->
 
-<script type="module" src="assets/js/script.js"></script>
+<script
+type="module"
+src="assets/js/script.js">
+</script>
 
 </body>
 </html>

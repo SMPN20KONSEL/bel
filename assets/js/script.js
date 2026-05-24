@@ -30,32 +30,198 @@ document.getElementById("jadwalList");
 const nextBell =
 document.getElementById("nextBell");
 
-// ================= AUDIO SUPER KERAS =================
+const btnEnableAudio =
+document.getElementById("enableAudio");
+
+// ================= AUDIO =================
 
 audioPlayer.volume = 1.0;
 
+audioPlayer.preload = "auto";
+
+// ================= AUDIO CONTEXT =================
+
+const AudioCtx =
+window.AudioContext ||
+window.webkitAudioContext;
+
 const audioContext =
-new AudioContext();
+new AudioCtx();
+
+// ================= SOURCE =================
 
 const source =
-audioContext.createMediaElementSource(audioPlayer);
+audioContext.createMediaElementSource(
+  audioPlayer
+);
+
+// ================= GAIN =================
 
 const gainNode =
 audioContext.createGain();
 
-gainNode.gain.value = 2.5;
+gainNode.gain.value = 1.5;
+
+// ================= COMPRESSOR =================
+
+const compressor =
+audioContext.createDynamicsCompressor();
+
+compressor.threshold.setValueAtTime(
+  -10,
+  audioContext.currentTime
+);
+
+compressor.knee.setValueAtTime(
+  10,
+  audioContext.currentTime
+);
+
+compressor.ratio.setValueAtTime(
+  8,
+  audioContext.currentTime
+);
+
+compressor.attack.setValueAtTime(
+  0,
+  audioContext.currentTime
+);
+
+compressor.release.setValueAtTime(
+  0.25,
+  audioContext.currentTime
+);
+
+// ================= CONNECT =================
 
 source.connect(gainNode);
 
-gainNode.connect(audioContext.destination);
+gainNode.connect(compressor);
+
+compressor.connect(
+  audioContext.destination
+);
 
 // ================= VARIABLE =================
 
 let semuaJadwal = [];
 
-let sudahBunyi = "";
+let jadwalHariIni = [];
 
-// ================= AMBIL DATA FIREBASE =================
+let sudahBunyi =
+localStorage.getItem(
+  "sudahBunyi"
+) || "";
+
+let lastMinute = "";
+
+let sedangMemutar = false;
+
+let wakeLock = null;
+
+// ================= ENABLE AUDIO =================
+
+async function enableAudio(){
+
+  try{
+
+    if(
+      audioContext.state ===
+      "suspended"
+    ){
+
+      await audioContext.resume();
+
+    }
+
+    audioPlayer.src =
+    "assets/audio/test.mp3";
+
+    await audioPlayer.play();
+
+    audioPlayer.pause();
+
+    audioPlayer.currentTime = 0;
+
+    console.log(
+      "Audio aktif"
+    );
+
+    if(btnEnableAudio){
+
+      btnEnableAudio.style.display =
+      "none";
+
+    }
+
+  }catch(err){
+
+    console.log(
+      "Enable audio gagal:",
+      err
+    );
+
+    alert(
+      "Klik lagi untuk mengaktifkan audio"
+    );
+
+  }
+
+}
+
+// ================= BUTTON =================
+
+if(btnEnableAudio){
+
+  btnEnableAudio.addEventListener(
+    "click",
+    enableAudio
+  );
+
+}
+
+// ================= AUTO RESUME =================
+
+document.addEventListener(
+"click",
+async ()=>{
+
+  try{
+
+    if(
+      audioContext.state ===
+      "suspended"
+    ){
+
+      await audioContext.resume();
+
+      console.log(
+        "AudioContext aktif"
+      );
+
+    }
+
+    // ================= FULLSCREEN =================
+
+    if(
+      !document.fullscreenElement
+    ){
+
+      document.documentElement
+      .requestFullscreen()
+      .catch(()=>{});
+
+    }
+
+  }catch(err){
+
+    console.log(err);
+
+  }
+
+});
+
+// ================= FIREBASE =================
 
 onSnapshot(
 collection(db,"jadwal_bel"),
@@ -69,9 +235,58 @@ collection(db,"jadwal_bel"),
 
   });
 
+  // ================= FILTER HARI =================
+
+  const hariSekarang =
+  hariText[
+    new Date().getDay()
+  ];
+
+  jadwalHariIni =
+  semuaJadwal.filter((item)=>{
+
+    return (
+      item.hari ===
+      hariSekarang
+    );
+
+  });
+
+  // ================= SORT =================
+
+  jadwalHariIni.sort((a,b)=>{
+
+    return a.jam.localeCompare(
+      b.jam
+    );
+
+  });
+
+  // ================= PRELOAD =================
+
+  preloadAudio();
+
+  // ================= TAMPIL =================
+
   tampilJadwal();
 
 });
+
+// ================= PRELOAD AUDIO =================
+
+function preloadAudio(){
+
+  semuaJadwal.forEach((item)=>{
+
+    const audio =
+    new Audio();
+
+    audio.src =
+    `assets/audio/${item.audio}`;
+
+  });
+
+}
 
 // ================= UPDATE JAM =================
 
@@ -92,7 +307,7 @@ function updateJam(){
   String(now.getSeconds())
   .padStart(2,'0');
 
-  // ================= TAMPIL JAM =================
+  // ================= JAM =================
 
   document.getElementById("jam")
   .innerHTML = jam;
@@ -125,56 +340,60 @@ function updateJam(){
     }
   );
 
-  // ================= CEK BEL =================
+  // ================= WAKTU =================
 
-  cekBel(`${jam}:${menit}`);
+  const waktuSekarang =
+  `${jam}:${menit}`;
 
-  // ================= UPDATE WARNA JADWAL =================
+  // ================= UPDATE PER MENIT =================
 
-  updateRealtimeJadwal(`${jam}:${menit}`);
+  if(
+    lastMinute !== waktuSekarang
+  ){
+
+    lastMinute =
+    waktuSekarang;
+
+    cekBel(waktuSekarang);
+
+    tampilBelBerikutnya();
+
+    updateRealtimeJadwal(
+      waktuSekarang
+    );
+
+  }
 
 }
 
-// ================= JALANKAN JAM =================
+// ================= START =================
 
 updateJam();
 
 setInterval(
-updateJam,
-1000
+  updateJam,
+  1000
 );
+
+// ================= KEEP ALIVE =================
+
+setInterval(()=>{
+
+  console.log(
+    "Bel sekolah aktif"
+  );
+
+},30000);
 
 // ================= TAMPIL JADWAL =================
 
 function tampilJadwal(){
 
-  const hariSekarang =
-  hariText[
-    new Date().getDay()
-  ];
-
   jadwalList.innerHTML = "";
-
-  // ================= FILTER =================
-
-  const dataHariIni =
-  semuaJadwal.filter((item)=>{
-
-    return item.hari === hariSekarang;
-
-  });
-
-  // ================= SORT =================
-
-  dataHariIni.sort((a,b)=>{
-
-    return a.jam.localeCompare(b.jam);
-
-  });
 
   // ================= KOSONG =================
 
-  if(dataHariIni.length <= 0){
+  if(jadwalHariIni.length <= 0){
 
     jadwalList.innerHTML = `
     <div class="kosong">
@@ -188,7 +407,7 @@ function tampilJadwal(){
 
   // ================= TAMPIL =================
 
-  dataHariIni.forEach((item)=>{
+  jadwalHariIni.forEach((item)=>{
 
     jadwalList.innerHTML += `
     <div
@@ -208,13 +427,13 @@ function tampilJadwal(){
 
   });
 
-  tampilBelBerikutnya();
-
 }
 
-// ================= REALTIME WARNA =================
+// ================= REALTIME =================
 
-function updateRealtimeJadwal(waktu){
+function updateRealtimeJadwal(
+waktu
+){
 
   const semuaItem =
   document.querySelectorAll(
@@ -249,68 +468,36 @@ function updateRealtimeJadwal(waktu){
 
 function cekBel(waktu){
 
-  const hariSekarang =
-  hariText[
-    new Date().getDay()
-  ];
+  jadwalHariIni.forEach((item)=>{
 
-  // ================= FILTER =================
-
-  const dataHariIni =
-  semuaJadwal.filter((item)=>{
-
-    return item.hari === hariSekarang;
-
-  });
-
-  dataHariIni.forEach((item)=>{
-
-    // ================= CEK JAM =================
+    const hariSekarang =
+    hariText[
+      new Date().getDay()
+    ];
 
     if(
-      item.jam === waktu &&
-      sudahBunyi !== `${hariSekarang}-${waktu}`
-    ){
 
-      // ================= STATUS =================
+      item.jam === waktu &&
+
+      sudahBunyi !==
+      `${hariSekarang}-${waktu}`
+
+    ){
 
       sudahBunyi =
       `${hariSekarang}-${waktu}`;
 
+      localStorage.setItem(
+        "sudahBunyi",
+        sudahBunyi
+      );
+
       console.log(
-        "BEL BUNYI:",
+        "BEL:",
         item.nama
       );
 
-      // ================= RESET AUDIO =================
-
-      audioPlayer.pause();
-
-      audioPlayer.currentTime = 0;
-
-      // ================= SET AUDIO =================
-
-      audioPlayer.src =
-      `assets/audio/${item.audio}`;
-
-      // ================= PLAY =================
-
-      audioPlayer.play()
-      .then(()=>{
-
-        console.log(
-          "Audio berhasil diputar"
-        );
-
-      })
-      .catch((err)=>{
-
-        console.log(
-          "Audio gagal:",
-          err
-        );
-
-      });
+      playBell(item);
 
     }
 
@@ -318,7 +505,121 @@ function cekBel(waktu){
 
 }
 
-// ================= BEL BERIKUTNYA =================
+// ================= PLAY BELL =================
+
+async function playBell(item){
+
+  // ================= ANTI DOBEL =================
+
+  if(sedangMemutar){
+
+    console.log(
+      "Masih memutar audio"
+    );
+
+    return;
+
+  }
+
+  sedangMemutar = true;
+
+  try{
+
+    // ================= RESUME =================
+
+    if(
+      audioContext.state ===
+      "suspended"
+    ){
+
+      await audioContext.resume();
+
+    }
+
+    // ================= STOP AUDIO =================
+
+    if(
+      !audioPlayer.paused
+    ){
+
+      audioPlayer.pause();
+
+    }
+
+    // ================= RESET =================
+
+    audioPlayer.currentTime = 0;
+
+    // ================= FADE IN =================
+
+    gainNode.gain.setValueAtTime(
+      0,
+      audioContext.currentTime
+    );
+
+    gainNode.gain.linearRampToValueAtTime(
+      1.5,
+      audioContext.currentTime + 1
+    );
+
+    // ================= AUDIO =================
+
+    audioPlayer.src =
+    `assets/audio/${item.audio}`;
+
+    audioPlayer.load();
+
+    // ================= PLAY =================
+
+    await audioPlayer.play();
+
+    console.log(
+      "Audio diputar"
+    );
+
+    // ================= END =================
+
+    audioPlayer.onended = ()=>{
+
+      gainNode.gain.linearRampToValueAtTime(
+        0,
+        audioContext.currentTime + 1
+      );
+
+      sedangMemutar = false;
+
+      console.log(
+        "Audio selesai"
+      );
+
+    };
+
+  }catch(err){
+
+    sedangMemutar = false;
+
+    console.log(
+      "Audio gagal:",
+      err
+    );
+
+  }
+
+}
+
+// ================= ERROR AUDIO =================
+
+audioPlayer.onerror = ()=>{
+
+  sedangMemutar = false;
+
+  console.log(
+    "File audio tidak ditemukan"
+  );
+
+};
+
+// ================= NEXT BELL =================
 
 function tampilBelBerikutnya(){
 
@@ -329,21 +630,9 @@ function tampilBelBerikutnya(){
   now.getHours()*60 +
   now.getMinutes();
 
-  const hariSekarang =
-  hariText[now.getDay()];
-
-  // ================= FILTER =================
-
-  const dataHariIni =
-  semuaJadwal.filter((item)=>{
-
-    return item.hari === hariSekarang;
-
-  });
-
   let next = null;
 
-  dataHariIni.forEach((item)=>{
+  jadwalHariIni.forEach((item)=>{
 
     const pecah =
     item.jam.split(":");
@@ -373,7 +662,7 @@ function tampilBelBerikutnya(){
 
   });
 
-  // ================= TAMPIL NEXT =================
+  // ================= TAMPIL =================
 
   if(next){
 
@@ -389,18 +678,7 @@ function tampilBelBerikutnya(){
 
 }
 
-// ================= UPDATE NEXT =================
-
-tampilBelBerikutnya();
-
-setInterval(
-tampilBelBerikutnya,
-60000
-);
-
 // ================= WAKE LOCK =================
-
-let wakeLock = null;
 
 async function aktifkanWakeLock(){
 
@@ -418,7 +696,7 @@ async function aktifkanWakeLock(){
   }catch(err){
 
     console.log(
-      "Wake Lock Gagal:",
+      "Wake Lock gagal:",
       err
     );
 
@@ -426,7 +704,7 @@ async function aktifkanWakeLock(){
 
 }
 
-// ================= AKTIFKAN =================
+// ================= START WAKE LOCK =================
 
 aktifkanWakeLock();
 
@@ -443,6 +721,77 @@ async ()=>{
 
     aktifkanWakeLock();
 
+    try{
+
+      if(
+        audioContext.state ===
+        "suspended"
+      ){
+
+        await audioContext.resume();
+
+      }
+
+    }catch(err){
+
+      console.log(err);
+
+    }
+
   }
 
 });
+
+// ================= INTERNET =================
+
+window.addEventListener(
+"offline",
+()=>{
+
+  console.log(
+    "Internet terputus"
+  );
+
+});
+
+window.addEventListener(
+"online",
+()=>{
+
+  console.log(
+    "Internet tersambung"
+  );
+
+});
+
+// ================= PWA =================
+
+if(
+  "serviceWorker" in navigator
+){
+
+  window.addEventListener(
+  "load",
+  ()=>{
+
+    navigator.serviceWorker
+    .register("./sw.js")
+    .then(()=>{
+
+      console.log(
+        "PWA aktif"
+      );
+
+    })
+    .catch((err)=>{
+
+      console.log(
+        "SW gagal:",
+        err
+      );
+
+    });
+
+  });
+
+}

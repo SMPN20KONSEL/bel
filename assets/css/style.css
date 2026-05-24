@@ -1,4 +1,3 @@
-
 /* =========================
    RESET
 ========================= */
@@ -15,10 +14,201 @@
 ========================= */
 
 body{
-  background:#0f172a;
+
+  background:
+  linear-gradient(
+    180deg,
+    #020617,
+    #0f172a,
+    #111827
+  );
+
   color:white;
+
   min-height:100vh;
-  padding:20px;
+
+  overflow-x:hidden;
+
+}
+
+/* =========================
+   HEADER LED
+========================= */
+
+.runningHeader{
+
+  width:100%;
+
+  height:65px;
+
+  background:#000;
+
+  border-top:3px solid #0ea5e9;
+
+  border-bottom:3px solid #0ea5e9;
+
+  overflow:hidden;
+
+  position:relative;
+
+  display:flex;
+
+  align-items:center;
+
+  box-shadow:
+  0 0 20px rgba(14,165,233,.5),
+  inset 0 0 20px rgba(14,165,233,.3);
+
+}
+
+/* =========================
+   LED DOT EFFECT
+========================= */
+
+.runningHeader::before{
+
+  content:"";
+
+  position:absolute;
+
+  inset:0;
+
+  background-image:
+  radial-gradient(
+    rgba(255,255,255,.15) 1px,
+    transparent 1px
+  );
+
+  background-size:8px 8px;
+
+  opacity:.25;
+
+  pointer-events:none;
+
+}
+
+/* =========================
+   RUNNING TEXT
+========================= */
+
+.runningText{
+
+  white-space:nowrap;
+
+  color:#38bdf8;
+
+  font-size:28px;
+
+  font-weight:800;
+
+  letter-spacing:3px;
+
+  text-transform:uppercase;
+
+  padding-left:100%;
+
+  animation:
+  runningLed 16s linear infinite;
+
+  text-shadow:
+  0 0 5px #38bdf8,
+  0 0 10px #38bdf8,
+  0 0 20px #38bdf8,
+  0 0 40px #0ea5e9;
+
+  font-family:
+  "Courier New",
+  monospace;
+
+}
+
+/* =========================
+   RUNNING ANIMATION
+========================= */
+
+@keyframes runningLed{
+
+  0%{
+    transform:translateX(0);
+  }
+
+  100%{
+    transform:translateX(-100%);
+  }
+
+}
+
+/* =========================
+   BLINK EFFECT
+========================= */
+
+.runningText span{
+
+  animation:
+  blink .8s infinite alternate;
+
+}
+
+@keyframes blink{
+
+  from{
+    opacity:.8;
+  }
+
+  to{
+    opacity:1;
+  }
+
+}
+
+/* =========================
+   TOP BAR
+========================= */
+
+.topBar{
+
+  width:100%;
+
+  min-height:75px;
+
+  padding:15px 30px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:20px;
+
+  background:
+  linear-gradient(
+    90deg,
+    rgba(15,23,42,.95),
+    rgba(30,41,59,.95)
+  );
+
+  border-bottom:
+  1px solid rgba(255,255,255,.08);
+
+  backdrop-filter:blur(10px);
+
+}
+
+/* =========================
+   TITLE
+========================= */
+
+.topTitle{
+
+  font-size:28px;
+
+  font-weight:700;
+
+  letter-spacing:1px;
+
+  color:white;
+
 }
 
 /* =========================
@@ -26,65 +216,110 @@ body{
 ========================= */
 
 .adminBtn{
-  position:fixed;
-  top:20px;
-  right:20px;
 
-  background:#38bdf8;
+  background:
+  linear-gradient(
+    135deg,
+    #0ea5e9,
+    #2563eb
+  );
+
   color:white;
 
   text-decoration:none;
 
-  padding:10px 18px;
-  border-radius:10px;
+  padding:
+  12px 24px;
 
-  font-weight:bold;
-  z-index:999;
+  border-radius:14px;
 
-  transition:0.3s;
+  font-weight:700;
+
+  font-size:15px;
+
+  transition:.3s;
+
+  box-shadow:
+  0 0 15px rgba(14,165,233,.4);
+
+  white-space:nowrap;
+
 }
 
 .adminBtn:hover{
-  background:#0ea5e9;
+
+  transform:
+  translateY(-2px);
+
+  box-shadow:
+  0 0 25px rgba(14,165,233,.7);
+
 }
 
 /* =========================
-   GRID 2 KOLOM
+   CONTAINER
 ========================= */
 
 .container{
-  max-width:1000px;
+
+  width:100%;
+
+  max-width:1700px;
+
   margin:auto;
 
+  padding:30px;
+
   display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap:20px;
 
-  padding-top:40px;
+  grid-template-columns:
+  1fr 1.2fr 1fr;
+
+  gap:25px;
+
+  align-items:start;
+
 }
 
 /* =========================
-   KOLOM BOX
+   BOX
 ========================= */
 
+.leftBox,
 .centerBox,
-.leftBox{
+.rightBox{
+
   display:flex;
+
   flex-direction:column;
+
 }
 
 /* =========================
-   NEXT BELL FULL BAWAH
+   CARD STYLE
 ========================= */
 
+.jadwalBox,
+.clockBox,
 .nextBox{
-  grid-column:1 / -1;
 
-  background:#1e293b;
-  border-radius:20px;
-  padding:25px;
+  background:
+  linear-gradient(
+    180deg,
+    rgba(30,41,59,.95),
+    rgba(15,23,42,.95)
+  );
 
-  box-shadow:0 10px 25px rgba(0,0,0,0.25);
+  border-radius:28px;
+
+  padding:30px;
+
+  box-shadow:
+  0 10px 35px rgba(0,0,0,.35);
+
+  border:
+  1px solid rgba(255,255,255,.05);
+
 }
 
 /* =========================
@@ -92,90 +327,117 @@ body{
 ========================= */
 
 .clockBox{
-  background:#1e293b;
-  border-radius:20px;
 
-  padding:35px 20px;
+  min-height:550px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  justify-content:center;
+
+  align-items:center;
 
   text-align:center;
 
-  box-shadow:0 10px 25px rgba(0,0,0,0.3);
-
-  height:100%;
 }
 
 /* =========================
-   CLOCK 1 BARIS
+   CLOCK
 ========================= */
 
 .clock{
-  font-size:120px;
-  font-weight:bold;
-  color:white;
 
   display:flex;
-  justify-content:center;
-  align-items:baseline;
 
-  gap:10px;
+  justify-content:center;
+
+  align-items:center;
+
+  gap:12px;
+
+  margin:40px 0;
+
   flex-wrap:nowrap;
 
-  margin-top:70px;
+  font-size:120px;
+
+  font-weight:800;
+
+  color:white;
+
+  text-shadow:
+  0 0 20px rgba(255,255,255,.2);
+
 }
 
 /* =========================
-   ANGKA JAM
+   CLOCK SPAN
 ========================= */
 
 .clock span{
+
   display:inline-block;
+
 }
 
 /* =========================
-   KEDIP TITIK
+   COLON BLINK
 ========================= */
 
 .kedip{
-  font-size:120px;
-  animation:kedip 1s infinite;
+
+  animation:
+  kedip 1s infinite;
+
 }
 
 @keyframes kedip{
-  0%{opacity:1;}
-  50%{opacity:0.2;}
-  100%{opacity:1;}
+
+  0%{
+    opacity:1;
+  }
+
+  50%{
+    opacity:.2;
+  }
+
+  100%{
+    opacity:1;
+  }
+
 }
 
 /* =========================
-   TANGGAL & HARI
+   DATE
 ========================= */
 
 #tanggal{
-  font-size:40px;
-  color:#cbd5e1;
-  margin-bottom:10px;
-}
 
-#hari{
-  margin-top:40px;
-  font-size:60px;
-  color:#38bdf8;
-  font-weight:bold;
+  font-size:30px;
+
+  color:#cbd5e1;
+
+  text-align:center;
+
+  line-height:1.5;
+
 }
 
 /* =========================
-   JADWAL BOX
+   DAY
 ========================= */
 
-.jadwalBox{
-  background:#1e293b;
-  border-radius:20px;
+#hari{
 
-  padding:25px;
+  font-size:60px;
 
-  box-shadow:0 10px 25px rgba(0,0,0,0.25);
+  font-weight:700;
 
-  height:100%;
+  color:#38bdf8;
+
+  margin-top:10px;
+
 }
 
 /* =========================
@@ -183,49 +445,15 @@ body{
 ========================= */
 
 h2{
+
   text-align:center;
-  margin-bottom:15px;
-}
 
-/* =========================
-   JADWAL ITEM
-========================= */
+  margin-bottom:25px;
 
-.jadwalItem{
-  background:#334155;
-  padding:15px;
-  border-radius:12px;
+  font-size:32px;
 
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+  font-weight:800;
 
-  margin-bottom:10px;
-}
-
-/* =========================
-   JAM & NAMA
-========================= */
-
-.jamBel{
-  font-size:20px;
-  font-weight:bold;
-  color:#38bdf8;
-}
-
-.namaBel{
-  text-align:right;
-}
-
-/* =========================
-   NEXT BELL
-========================= */
-
-#nextBell{
-  text-align:center;
-  font-size:22px;
-  font-weight:bold;
-  color:#22c55e;
 }
 
 /* =========================
@@ -233,57 +461,387 @@ h2{
 ========================= */
 
 .statusItem{
+
   display:flex;
+
   justify-content:center;
+
   align-items:center;
+
   gap:10px;
 
+  margin-bottom:20px;
+
   font-weight:bold;
+
   color:#22c55e;
+
+  font-size:18px;
+
 }
 
+/* =========================
+   STATUS DOT
+========================= */
+
 .statusDot{
-  width:12px;
-  height:12px;
-  background:#22c55e;
+
+  width:14px;
+
+  height:14px;
+
   border-radius:50%;
-  animation:pulse 1s infinite;
+
+  background:#22c55e;
+
+  animation:
+  pulse 1s infinite;
+
 }
 
 @keyframes pulse{
-  0%{transform:scale(1);}
-  50%{transform:scale(1.3);}
-  100%{transform:scale(1);}
+
+  0%{
+    transform:scale(1);
+  }
+
+  50%{
+    transform:scale(1.3);
+  }
+
+  100%{
+    transform:scale(1);
+  }
+
+}
+
+/* =========================
+   JADWAL ITEM
+========================= */
+
+.jadwalItem{
+
+  background:#334155;
+
+  border-radius:20px;
+
+  padding:24px;
+
+  margin-bottom:18px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  justify-content:center;
+
+  align-items:center;
+
+  text-align:center;
+
+  gap:14px;
+
+  transition:.3s;
+
+  min-height:140px;
+
+}
+/* =========================
+   TITLE
+========================= */
+
+h2{
+
+  text-align:center;
+
+  margin-bottom:25px;
+
+  font-size:26px;
+
+  font-weight:800;
+
+  letter-spacing:2px;
+
+  color:white;
+
+  text-shadow:
+  0 0 10px rgba(255,255,255,.15);
+
+}
+.jadwalItem:hover{
+
+  transform:
+  translateY(-3px);
+
+  background:#3b4d66;
+
+}
+
+/* =========================
+   ACTIVE REALTIME
+========================= */
+
+.aktifRealtime{
+
+  background:
+  linear-gradient(
+    135deg,
+    #0ea5e9,
+    #2563eb
+  ) !important;
+
+  box-shadow:
+  0 0 20px rgba(14,165,233,.5);
+
+}
+
+/* =========================
+   JADWAL ITEM
+========================= */
+
+.jadwalItem{
+
+  background:#334155;
+
+  border-radius:18px;
+
+  padding:16px 18px;
+
+  margin-bottom:14px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  justify-content:center;
+
+  align-items:center;
+
+  text-align:center;
+
+  gap:8px;
+
+  transition:.3s;
+
+  min-height:95px;
+
+}
+
+/* =========================
+   JAM BEL
+========================= */
+
+.jamBel{
+
+  font-size:30px;
+
+  font-weight:800;
+
+  color:#38bdf8;
+
+  line-height:1;
+
+  text-shadow:
+  0 0 15px rgba(56,189,248,.4);
+
+}
+
+/* =========================
+   NAMA BEL
+========================= */
+
+.namaBel{
+
+  font-size:12px;
+
+  font-weight:600;
+
+  line-height:1.3;
+
+  color:white;
+
+  text-align:center;
+
+  word-break:break-word;
+
+  display:-webkit-box;
+
+  -webkit-line-clamp:2;
+
+  -webkit-box-orient:vertical;
+
+  overflow:hidden;
+
+  max-width:100%;
+
+}
+
+/* =========================
+   NEXT BELL
+========================= */
+
+#nextBell{
+
+  text-align:center;
+
+  font-size:24px;
+
+  font-weight:700;
+
+  color:#22c55e;
+
+  margin-top:30px;
+
+  line-height:1.5;
+
+}
+
+/* =========================
+   LOADING
+========================= */
+
+.loading{
+
+  text-align:center;
+
+  color:#94a3b8;
+
+  padding:20px;
+
 }
 
 /* =========================
    RESPONSIVE
 ========================= */
 
-@media(max-width:800px){
+@media(max-width:1200px){
 
   .container{
+
     grid-template-columns:1fr;
+
+  }
+
+}
+
+@media(max-width:768px){
+
+  .topBar{
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    text-align:center;
+
+    padding:18px 15px;
+
+  }
+
+  .topTitle{
+
+    font-size:20px;
+
+  }
+
+  .adminBtn{
+
+    padding:10px 16px;
+
+    font-size:13px;
+
+  }
+
+  .runningHeader{
+
+    height:55px;
+
+  }
+
+  .runningText{
+
+    font-size:16px;
+
+    letter-spacing:1px;
+
+  }
+
+  .container{
+
+    padding:15px;
+
+    gap:18px;
+
+  }
+
+  .clockBox,
+  .jadwalBox,
+  .nextBox{
+
+    padding:22px;
+
+    border-radius:22px;
+
   }
 
   .clock{
-    font-size:55px;
-  }
 
-  #hari{
-    font-size:22px;
-  }
+    font-size:60px;
 
-  #tanggal{
-    font-size:20px;
+    gap:8px;
+
+    margin:25px 0;
+
   }
 
   .kedip{
-    font-size:55px;
+
+    font-size:60px;
+
+  }
+
+  #hari{
+
+    font-size:32px;
+
+  }
+
+  #tanggal{
+
+    font-size:18px;
+
+  }
+
+  h2{
+
+    font-size:24px;
+
   }
 
   #nextBell{
+
+    font-size:22px;
+
+  }
+
+  .jamBel{
+
+    font-size:34px;
+
+  }
+
+  .namaBel{
+
     font-size:18px;
+
+  }
+
+  .jadwalItem{
+
+    min-height:110px;
+
+    padding:18px;
+
   }
 
 }
